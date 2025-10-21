@@ -55,9 +55,9 @@
     <category term="k8s" scheme="https://nikieuphoria.github.io/categories/%E6%8A%80%E6%9C%AF/k8s/"/>
     
     
-    <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
-    
     <category term="kubenates" scheme="https://nikieuphoria.github.io/tags/kubenates/"/>
+    
+    <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -191,9 +191,9 @@
     <category term="k8s" scheme="https://nikieuphoria.github.io/categories/%E6%8A%80%E6%9C%AF/k8s/"/>
     
     
-    <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
-    
     <category term="kubenates" scheme="https://nikieuphoria.github.io/tags/kubenates/"/>
+    
+    <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -324,9 +324,9 @@
     <category term="linux" scheme="https://nikieuphoria.github.io/categories/lifelong-learning/%E6%8A%80%E6%9C%AF/linux/"/>
     
     
-    <category term="linux" scheme="https://nikieuphoria.github.io/tags/linux/"/>
-    
     <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="linux" scheme="https://nikieuphoria.github.io/tags/linux/"/>
     
   </entry>
   
@@ -455,9 +455,9 @@
     <category term="技术" scheme="https://nikieuphoria.github.io/categories/lifelong-learning/%E6%8A%80%E6%9C%AF/"/>
     
     
-    <category term="容器" scheme="https://nikieuphoria.github.io/tags/%E5%AE%B9%E5%99%A8/"/>
-    
     <category term="运维" scheme="https://nikieuphoria.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="容器" scheme="https://nikieuphoria.github.io/tags/%E5%AE%B9%E5%99%A8/"/>
     
   </entry>
   
