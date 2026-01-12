@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>linux-文件的访问控制列表facl | The Fountainhead</title><meta name="author" content="niki,zn40489@gmail.com"><meta name="copyright" content="niki"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#FFEB3B"><meta name="description" content="&quot;更细粒度地控制文件和目录的访问权限&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux-文件的访问控制列表facl">
+<meta property="og:url" content="https://nikieuphoria.github.io/2025/05/07/%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8facl/index.html">
+<meta property="og:site_name" content="The Fountainhead">
+<meta property="og:description" content="&quot;更细粒度地控制文件和目录的访问权限&quot;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://nikieuphoria.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2025-05-07T09:52:42.000Z">
+<meta property="article:modified_time" content="2025-05-07T09:52:42.000Z">
+<meta property="article:author" content="niki">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://nikieuphoria.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "linux-文件的访问控制列表facl",
+  "url": "https://nikieuphoria.github.io/2025/05/07/%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8facl/",
+  "image": "https://nikieuphoria.github.io/img/butterfly-icon.png",
+  "datePublished": "2025-05-07T09:52:42.000Z",
+  "dateModified": "2025-05-07T09:52:42.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "niki",
+      "url": "https://nikieuphoria.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://nikieuphoria.github.io/2025/05/07/%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8facl/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#212121')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#FFEB3B')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'linux-文件的访问控制列表facl',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="The Fountainhead" type="application/atom+xml">
+</head><body><div id="web_bg" style="background-color: #efefef;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/3.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">The Fountainhead</span></a><a class="nav-page-title" href="/"><span class="site-name">linux-文件的访问控制列表facl</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">linux-文件的访问控制列表facl</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-07T09:52:42.000Z" title="发表于 2025-05-07 17:52:42">2025-05-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-07T09:52:42.000Z" title="更新于 2025-05-07 17:52:42">2025-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/lifelong-learning/">lifelong learning</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/lifelong-learning/%E6%8A%80%E6%9C%AF/">技术</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/lifelong-learning/%E6%8A%80%E6%9C%AF/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">127</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><code>setfacl</code>工具： 设置和修改文件或目录的访问控制列表（ACLs）的命令行工具。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m option:name[:permission] file</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-m</code> 表示修改现有的 ACL 条目。</li>
+<li><code>option</code> 可以是 <code>u</code>（用户）、<code>g</code>（组）、<code>o</code>（其他）、<code>d</code>（默认）、<code>-</code>（掩码，用于限制通过 ACL 授予的权限）。</li>
+<li><code>name</code> 是用户或组的名称。</li>
+<li><code>permission</code> 是逗号分隔的权限列表，可以是 <code>r</code>（读）、<code>w</code>（写）、<code>x</code>（执行）、<code>R</code>（读，但不允许执行）、<code>W</code>（写，但不允许执行）、<code>X</code>（执行，但不允许写）。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://nikieuphoria.github.io">niki</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://nikieuphoria.github.io/2025/05/07/%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8facl/">https://nikieuphoria.github.io/2025/05/07/%E6%96%87%E4%BB%B6%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E5%88%97%E8%A1%A8facl/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://nikieuphoria.github.io" target="_blank">The Fountainhead</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>buy me a coffee</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li></ul></div></div><nav class="pagination-post" id="pagination"></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/08/Linux%20%E5%86%85%E6%A0%B8--Cgroup%E4%B8%8Enamespace/" title="Linux 内核--Cgroup与namespace"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-08</div><div class="info-item-2">Linux 内核--Cgroup与namespace</div></div><div class="info-2"><div class="info-item-1">容器 &#x3D; cgroup + namespace + rootfs + 容器引擎容器的核心技术是 Cgroup + Namespace  ​	Cgroup： 资源控制  ​	namespace： 访问隔离 ​	rootfs：文件系统隔离。镜像的本质就是一个rootfs文件 ​	容器引擎：生命周期控制  cgroup（控制组）和namespace（命名空间） 是 Linux 内核中的两个核心技术，主要用于实现资源管理和环境隔离，它们是容器技术（如 Docker）的底层基础。  cgroup（控制组）：核心作用：限制、分配和监控进程的资源使用，比如 CPU、内存、磁盘 I&#x2F;O 等。  作用： 通过cgroup，系统管理员可以为一组进程分配资源，并限制它们对系统资源的使用。这对于实现资源隔离和管理是很有用的，特别是在容器化环境中，可以确保容器之间不会相互干扰，同时允许对资源进行有效的分配和控制。  namespace（命名空间）：命名空间是 Linux 内核提供的一种隔离机制，用于隔离容器的进程和文件系统等。  作用：...</div></div></div></a><a class="pagination-related" href="/2025/05/07/SElinux-%E5%AE%89%E5%85%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" title="SElinux-安全上下文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-07</div><div class="info-item-2">SElinux-安全上下文</div></div><div class="info-2"><div class="info-item-1">SElinux-Security-Enhanced Linux 安全增强型 linuxLinux系统安全的强制访问控制体系 三种配置模式 selinux的配置文件：&#x2F;etc&#x2F;sysconfig&#x2F;selinux     状态 含义    enforcing 级别为强制   permissive 级别为警告   disable 关闭    模式管理  1234567891011121314151617#查看当前工作模式[root@server ~]# getenforce[root@server ~]# getenforceEnforcing# 临时关闭进入宽容模式[root@server ~]# setenforce  0  [root@server ~]# getenforcePermissive # 临时开启[root@server ~]# setenforce  1 [root@server ~]# getenforceEnforcing#永久性关闭[root@server ~]# vim  /etc/selinux/config...</div></div></div></a><a class="pagination-related" href="/2025/05/06/WSL/" title="WSL-Windows Subsystem for Linux"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-06</div><div class="info-item-2">WSL-Windows Subsystem for Linux</div></div><div class="info-2"><div class="info-item-1">WSL-Windows Subsystem for Linuxwsl是什么？适用于Windows的Linux子系统，可以在windows下运行linux操作系统。  轻量：不像虚拟机那样吃内存，不跑完整 Linux 系统，运行速度快，资源占用少 无缝：能和 Windows 系统共享文件、剪贴板、网络 无需虚拟机：不需要装 VMware、VirtualBox，也不用重启，直接在 Win 下跑 Linux 开发友好：支持绝大多数 Linux 工具链（如 apt、git、docker、conda 等），尤其适合开发者  wsl用来干什么安装教程windows11 安装WSL2全流程_wsl2安装-CSDN博客 </div></div></div></a><a class="pagination-related" href="/2025/05/07/linux-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86/" title="文件系统与磁盘管理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-07</div><div class="info-item-2">文件系统与磁盘管理</div></div><div class="info-2"><div class="info-item-1">disk -&gt; partition -&gt; PV -&gt; VG -&gt; LV -&gt; fs 磁盘-&gt;分区-&gt;物理卷-&gt;卷组-&gt;逻辑卷-&gt;文件系统。![[&#x2F;images&#x2F;disk.drawio.png]] 文件系统 File System EXT4：EXT4是Linux默认文件系统 XFS SWAP：交换文件系统，相当于虚拟内存  df列出文件系统的整体磁盘使用量 df -h du检查磁盘空间使用量 lsblk 列出块设备的信息，包括磁盘和分区。它以树状结构显示  12345678910111213141516171819202122232425#列出当前系统所有磁盘与磁盘内的分区信息[root@master ~]# lsblkNAME              MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTsda                 8:0    0   20G  0 disk├─sda1              8:1    0    1G  0 part...</div></div></div></a><a class="pagination-related" href="/2024/07/20/%E7%94%A8%E6%88%B7%E4%B8%8E%E7%BB%84%E7%AE%A1%E7%90%86/" title="linux用户与组管理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-20</div><div class="info-item-2">linux用户与组管理</div></div><div class="info-2"><div class="info-item-1">用户与组管理useradd创建用户12345678910111213常用选项：-u 指定用户UID-d 指定用户家目录-c --comment用户描述信息-g 指定用户gid-G 指定用户附加组（次要组）-s --shell指定用户的解释器程序   ⽆权访问系统上的交互式shell：/sbin/noloogin   /bin/false#创建用户指定用户UID、描述信息、附加组[root@localhost ~]# useradd -u 1600 -c yunwei -G test xiaozhang[root@localhost ~]# id xiaozhanguid=1600(xiaozhang) gid=1600(xiaozhang) 组=1600(xiaozhang),1401(test)  groupadd创建组123#创建组 groupadd -g GID   #指定组的GID[root@localhost ~]# groupadd -g 1555...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">niki</div><div class="author-info-description">You must learn not to be afraid of the world. Never to be hurt by it as you were in that courtroom.You'll win, because you've chosen the hardest way of fighting for your freedom from the world.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/nikieuphoria"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/nikieuphoria" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/zn40489@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="https://www.douban.com/" target="_blank" title="Douban"><i class="fab fa-douban" style="color: #007722;"></i></a><a class="social-icon" href="/your_wechat_id" target="_blank" title="WeChat"><i class="fas fa-weixin" style="color: #07c160;"></i></a><a class="social-icon" href="/your_id" target="_blank" title="LinkedIn"><i class="fab fa-linkedin" style="color: #0077b5;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">恭喜，进入了一个空虚的数字世界。如果你遇到技术问题，你可能会在这儿找到一些答案，或者完全没有。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/05/%F0%9F%8E%81-%E8%AF%AD%E8%A8%80%E7%9A%84%E8%BE%B9%E7%95%8C%E5%92%8C%E6%80%9D%E8%80%83%E7%9A%84%E9%87%8D%E5%BD%B1/" title="🎁-语言的边界和思考的重影">🎁-语言的边界和思考的重影</a><time datetime="2026-01-04T16:00:00.000Z" title="发表于 2026-01-05 00:00:00">2026-01-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/03/%F0%9F%92%8A-%E8%8D%AF%E7%89%A9%E5%8F%8D%E5%BA%94/" title="💊-药物反应">💊-药物反应</a><time datetime="2026-01-02T16:00:00.000Z" title="发表于 2026-01-03 00:00:00">2026-01-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/02/%F0%9F%92%93-%E6%B5%81%E8%90%BD%E8%8D%92%E5%B2%9B%E6%88%91%E8%A6%81%E5%B8%A6%E4%B8%8A/" title="💓-流落荒岛我要带上的书">💓-流落荒岛我要带上的书</a><time datetime="2026-01-01T16:00:00.000Z" title="发表于 2026-01-02 00:00:00">2026-01-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/01/008-2026%E7%9A%84%E5%BC%80%E5%A7%8B/" title="008-2026的开始">008-2026的开始</a><time datetime="2025-12-31T16:00:00.000Z" title="发表于 2026-01-01 00:00:00">2026-01-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/26/007-2025%E7%9A%84%E7%BB%93%E6%9D%9F/" title="007-2025年的故事">007-2025年的故事</a><time datetime="2025-12-25T16:00:00.000Z" title="发表于 2025-12-26 00:00:00">2025-12-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By niki</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to the <a href="https://nikieuphoria.github.io//">fountainhead</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索内容..." type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
