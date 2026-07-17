@@ -1,6 +1,6 @@
 .collection-app {
-  --collection-green: #3f8f67;
-  --collection-green-soft: #e8f3ed;
+  --collection-green: #c94f87;
+  --collection-green-soft: #fbeaf2;
   --collection-ink: #24312b;
   --collection-muted: #758078;
   --collection-line: rgba(36, 49, 43, 0.12);
@@ -139,11 +139,11 @@
   cursor: pointer;
 }
 
-.collection-day[data-level="1"] { background: #cce5d7; }
-.collection-day[data-level="2"] { background: #91c4a7; }
-.collection-day[data-level="3"] { background: #5da27b; }
-.collection-day[data-level="4"] { background: #2f7653; }
-.collection-day.is-selected { outline: 2px solid #1d4f38; outline-offset: 1px; }
+.collection-day[data-level="1"] { background: #f9d6e6; }
+.collection-day[data-level="2"] { background: #f1a7c8; }
+.collection-day[data-level="3"] { background: #df6c9f; }
+.collection-day[data-level="4"] { background: #b93672; }
+.collection-day.is-selected { outline: 2px solid #84234f; outline-offset: 1px; }
 
 .collection-legend {
   display: flex;

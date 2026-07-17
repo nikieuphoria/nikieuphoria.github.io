@@ -184,13 +184,22 @@
     renderCards();
   }
 
-  fetch('/data/douban-collection.json')
+  const loadCollectionFile = (url, optional = false) => fetch(url)
     .then(response => {
+      if (!response.ok && optional) return { books: [], movies: [] };
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
-    })
-    .then(data => {
-      state.items = [...(data.books || []), ...(data.movies || [])];
+    });
+
+  Promise.all([
+    loadCollectionFile('/data/douban-collection.json'),
+    loadCollectionFile('/data/manual-collection.json', true)
+  ])
+    .then(([douban, manual]) => {
+      const merged = new Map();
+      [...(douban.books || []), ...(douban.movies || []), ...(manual.books || []), ...(manual.movies || [])]
+        .forEach(item => merged.set(`${item.type}:${item.id}`, item));
+      state.items = [...merged.values()];
       renderShell();
     })
     .catch(() => {
